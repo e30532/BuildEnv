@@ -1,0 +1,12 @@
+- hosts: all
+  become: yes
+  roles:
+   - GUI
+   - IIM
+   - WASv90
+   - WASv85
+   - WASv80
+   - Profiles
+   - WLP
+   - WCT
+   - WXS
