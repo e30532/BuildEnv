@@ -1,8 +1,6 @@
 ---
 - name: installing Server GUI env
   shell: yum groupinstall "Server with GUI" -y
-  when:
-    - ansible_distribution_major_version == "7"
 
 - name: installing tigervnc packages
   shell: yum -y install tigervnc-server tigervnc
