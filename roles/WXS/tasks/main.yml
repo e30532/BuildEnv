@@ -176,6 +176,36 @@
   shell: /opt/IBM/InstallationManager/eclipse/tools/imcl listInstalledPackages
   register: imcl_listInstalledPackages
   
+
+- name: checking if tmp directory exists or not
+  stat:
+    path: /root/DownloadDirector/WXSv8614L
+  register: tmp_file
+
+- name: creating a tmp download directory
+  file:
+    path: /root/DownloadDirector/WXSv8614L
+    state: directory
+  when: not tmp_file.stat.exists
+
+- name: downloading and unzipping XSLD
+  unarchive:
+    src: http://9.46.75.132/WXSv8615L/8.6.1.4-WS-WXS-XSLD-FP.zip
+    dest: /root/DownloadDirector/WXSv8614L
+    remote_src: yes
+  when: not tmp_file.stat.exists
+
+
+- name: copy XSLD response files 
+  template: src=files/WXS/{{ item }} dest=/tmp/
+  with_items:
+    - install_xsld.txt
+
+- name: installing XSLD
+  shell: /opt/IBM/InstallationManager/eclipse/tools/imcl -acceptLicense input /tmp/install_xsld.txt -log /tmp/install_xsld.log
+  when: "'com.ibm.websphere.WXSLD' not in imcl_listInstalledPackages.stdout"
+
+
 - name: checking if tmp directory exists or not
   stat:
     path: /root/DownloadDirector/WXSv8615L
@@ -194,12 +224,12 @@
     remote_src: yes
   when: not tmp_file.stat.exists
   
-- name: copy XSLD response files 
-  template: src=files/WXS/{{ item }} dest=/tmp/
-  with_items:
-    - install_xsld.txt
+- name: stopping XSLD
+  shell: /opt/IBM/WebSphere/eXtremeScale/wxs/stopXSLD.sh
+  ignore_errors: yes
+  when: "'com.ibm.websphere.WXSLD' not in imcl_listInstalledPackages.stdout"
 
-- name: installing XSLD
-  shell: /opt/IBM/InstallationManager/eclipse/tools/imcl -acceptLicense input /tmp/install_xsld.txt -log /tmp/install_xsld.log
+- name: updating XSLD
+  shell: /opt/IBM/InstallationManager/eclipse/tools/imcl install com.ibm.websphere.WXSLD.v86 -repositories /root/DownloadDirector/WXSv8615L -installationDirectory /opt/IBM/WebSphere/eXtremeScale -acceptLicense
   when: "'com.ibm.websphere.WXSLD' not in imcl_listInstalledPackages.stdout"
 ...

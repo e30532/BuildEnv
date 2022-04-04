@@ -39,5 +39,7 @@
 - name: creating a database 
   shell: db2 create database WASDB
   become_user: db2inst1
+  become_method: su
+  become_flags: '-s /bin/bash'
   when: not tmp_file.stat.exists 
 ...
