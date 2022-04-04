@@ -50,7 +50,7 @@
     path: /var/mqm/qmgrs/TESTQM
   register: tmp_file 
 
-- name: copy wct response files 
+- name: copy mq response files 
   copy: src=files/MQ/{{ item }} dest=/tmp/
   with_items:
     - mq.ini
