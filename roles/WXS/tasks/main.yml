@@ -178,19 +178,19 @@
   
 - name: checking if tmp directory exists or not
   stat:
-    path: /root/DownloadDirector/WXSv8614L
+    path: /root/DownloadDirector/WXSv8615L
   register: tmp_file
 
 - name: creating a tmp download directory
   file:
-    path: /root/DownloadDirector/WXSv8614L
+    path: /root/DownloadDirector/WXSv8615L
     state: directory
   when: not tmp_file.stat.exists
 
 - name: downloading and unzipping XSLD
   unarchive:
-    src: http://9.46.75.132/WXSv8614L/8.6.1.4-WS-WXS-XSLD-FP.zip
-    dest: /root/DownloadDirector/WXSv8614L
+    src: http://9.46.75.132/WXSv8615L/8.6.1.5-WS-WXS-XSLD-FP.zip
+    dest: /root/DownloadDirector/WXSv8615L
     remote_src: yes
   when: not tmp_file.stat.exists
   
