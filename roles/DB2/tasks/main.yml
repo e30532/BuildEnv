@@ -1,4 +1,12 @@
 ---
+- name: installing packages for RHELv7
+  yum:
+    name: "{{ packages }}"
+  vars:
+    packages:
+      - mksh
+      - pam.i686
+
 - name: checking if tmp directory exists or not
   stat:
     path: /root/DownloadDirector/DB2
@@ -37,9 +45,7 @@
   register: tmp_file
 
 - name: creating a database 
-  shell: db2 create database WASDB
+  shell: bash -lc "db2 create database WASDB"
   become_user: db2inst1
-  become_method: su
-  become_flags: '-s /bin/bash'
   when: not tmp_file.stat.exists 
 ...

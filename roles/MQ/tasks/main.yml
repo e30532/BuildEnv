@@ -59,7 +59,7 @@
   shell: . /opt/mqm/bin/setmqenv -s;
          crtmqm TESTQM;
          strmqm TESTQM;
-         runmqsc TESTQM < /tmp/mq.inii;
+         runmqsc TESTQM < /tmp/mq.ini;
   become_user: mqm
   when: not tmp_file.stat.exists
 ...

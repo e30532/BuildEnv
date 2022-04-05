@@ -9,14 +9,14 @@
   </server>
   <profile id='IBM WebSphere eXtreme Scale Liberty Deployment' installLocation='/opt/IBM/WebSphere/eXtremeScale'>
     <data key='cic.selector.arch' value='x86_64'/>
-    <data key='user.secret.key.temp,com.ibm.websphere.WXSLD.v86' value='{{ vncpassword }}{{ vncpassword }}1I!'/>
+    <data key='user.secret.key.temp,com.ibm.websphere.WXSLD.v86' value='{{ vncpassword }}'/>
     <data key='user.member.name,com.ibm.websphere.WXSLD.v86' value='{{ ansible_nodename }}'/>
-    <data key='user.admin.password,com.ibm.websphere.WXSLD.v86' value='{{ vncpassword }}{{ vncpassword }}1I!'/>
+    <data key='user.admin.password,com.ibm.websphere.WXSLD.v86' value='{{ vncpassword }}'/>
     <data key='user.internal.host.name,com.ibm.websphere.WXSLD.v86' value='{{ ansible_eth1.ipv4.address }}'/>
-    <data key='user.admin.password.temp,com.ibm.websphere.WXSLD.v86' value='{{ vncpassword }}{{ vncpassword }}1I!'/>
+    <data key='user.admin.password.temp,com.ibm.websphere.WXSLD.v86' value='{{ vncpassword }}'/>
     <data key='user.skip.config,com.ibm.websphere.WXSLD.v86' value='false'/>
     <data key='user.cache.member.group,com.ibm.websphere.WXSLD.v86' value='cacheGroup1'/>
-    <data key='user.secret.key,com.ibm.websphere.WXSLD.v86' value='{{ vncpassword }}{{ vncpassword }}1I!'/>
+    <data key='user.secret.key,com.ibm.websphere.WXSLD.v86' value='{{ vncpassword }}'/>
     <data key='user.memory,com.ibm.websphere.WXSLD.v86' value='2'/>
     <data key='user.start.server,com.ibm.websphere.WXSLD.v86' value='false'/>
   </profile>

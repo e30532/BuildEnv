@@ -149,6 +149,32 @@
   when: "'/opt/IBM/WebSphere/AppServer85WXS' not in imcl_listInstallationDirectories.stdout"
 
 
+- name: checking if WAS 85 WXS profiles exists
+  stat:
+    path: /opt/IBM/WebSphere/AppServer85WXS/profiles
+  register: v85wxsprofiles
+    
+- name: creating WAS v85WXS DM profile
+  shell: /opt/IBM/WebSphere/AppServer85WXS/bin/manageprofiles.sh -create -profileName Dmgr01 -templatePath /opt/IBM/WebSphere/AppServer85WXS/profileTemplates/xs_augment/management -serverType DEPLOYMENT_MANAGER -defaultPorts -enableAdminSecurity true -adminUserName admin -adminPassword admin
+  when: not v85wxsprofiles.stat.exists
+
+- name: starting v85WXS DM
+  shell: /opt/IBM/WebSphere/AppServer85WXS/profiles/Dmgr01/bin/startManager.sh
+  when: not v85wxsprofiles.stat.exists
+  
+- name: creating WAS v85WXS Custom profile
+  shell: /opt/IBM/WebSphere/AppServer85WXS/bin/manageprofiles.sh -create -profileName Custom01 -templatePath /opt/IBM/WebSphere/AppServer85WXS/profileTemplates/xs_augment/managed -dmgrHost localhost -dmgrPort 8879 -dmgrAdminUserName admin -dmgrAdminPassword admin
+  when: not v85wxsprofiles.stat.exists
+
+- name: stopping v85WXS Nodeagent
+  shell: /opt/IBM/WebSphere/AppServer85WXS/profiles/Custom01/bin/stopNode.sh -user admin -password admin
+  when: not v85wxsprofiles.stat.exists
+    
+- name: stopping v85WXS DM
+  shell: /opt/IBM/WebSphere/AppServer85WXS/profiles/Dmgr01/bin/stopManager.sh -user admin -password admin
+  when: not v85wxsprofiles.stat.exists
+
+
 - name: checking if tmp directory exists or not
   stat:
     path: /root/DownloadDirector/WXSv8615S
@@ -190,7 +216,7 @@
 
 - name: downloading and unzipping XSLD
   unarchive:
-    src: http://9.46.75.132/WXSv8615L/8.6.1.4-WS-WXS-XSLD-FP.zip
+    src: http://9.46.75.132/WXSv8614L/8.6.1.4-WS-WXS-XSLD-FP.zip
     dest: /root/DownloadDirector/WXSv8614L
     remote_src: yes
   when: not tmp_file.stat.exists
